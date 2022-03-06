@@ -1,0 +1,20 @@
+name: 🚀 ProductionRemote ssh command
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🎉 executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USERNAME }}
+        password: ${{ secrets.PRODUCTION_PASSWORD }}
+        port: ${{ secrets.PRODUCTION_PORT }}
+        script: "cd public/git-action/guest-post && sh ./.scripts/git-deployment.sh"

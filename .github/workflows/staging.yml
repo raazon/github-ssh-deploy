@@ -1,0 +1,26 @@
+name: 🚀 Staging remote ssh command
+
+on: [push]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🎉 executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      env:
+        PUSHED_BRANCH: ${{ github.ref_name }}
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        envs: PUSHED_BRANCH
+        script: |
+          cd public/git-action/guest-post
+          echo "Deployment started ..."
+          git checkout $PUSHED_BRANCH
+          git pull
+          echo "Deployment finished!"
